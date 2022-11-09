@@ -5,10 +5,6 @@ const { detailPixCob } = require('./use-cases/detail-pix-cob');
 const { detailPixReceived } = require('./use-cases/detail-pix-received');
 
 exports.handler = async (event) => {
-  // return {
-  //   statusCode: 200
-  // };
-
   const { resource, path, body, queryStringParameters, httpMethod } = event;
 
   if (httpMethod === 'OPTIONS') {
