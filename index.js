@@ -5,7 +5,7 @@ const { detailPixCob } = require('./use-cases/detail-pix-cob');
 const { detailPixReceived } = require('./use-cases/detail-pix-received');
 
 exports.handler = async (event) => {
-  const { resource, path, body, queryStringParameters, httpMethod } = event;
+  const { resource, body, queryStringParameters, httpMethod, pathParameters } = event;
 
   if (httpMethod === 'OPTIONS') {
     return {
@@ -26,9 +26,7 @@ exports.handler = async (event) => {
         responseData = await createPixCob({ body: JSON.parse(body) });
         break;
       case '/pix/list/{proxy+}':
-        const proxy = path.split('/')[3];
-
-        switch (proxy) {
+        switch (pathParameters.proxy) {
           case 'cob':
             responseData = await listPixCob({ query: queryStringParameters });
             break;
@@ -39,12 +37,12 @@ exports.handler = async (event) => {
         }
         break;
       case '/pix/cob/{txId+}':
-        const txId = path.split('/')[3];
+        const txId = pathParameters.txId;
 
         responseData = await detailPixCob({ txId });
         break;
       case '/pix/received/{e2eId+}':
-        const e2eId = path.split('/')[3];
+        const e2eId = pathParameters.e2eId;
 
         responseData = await detailPixReceived({ e2eId });
         break;
